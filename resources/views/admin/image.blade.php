@@ -2,10 +2,10 @@
 
 @section('content')
     <style>
-        .max{width:100%;height:100px;}
-        .min{width:100px;height:auto;}
+        .max{width:100%;height:100%;}
+        .min{width:20%;height:20%;}
     </style>
-<div>
+    <div>
 
         <form action="{{ url('/storeinto') }}" method="post" enctype="multipart/form-data">
             <div class="form-group">
@@ -15,22 +15,30 @@
             {{ csrf_field() }}
             <button type="submit" class="btn btn-default">Submit</button>
         </form>
-</div>
+        <div class="row">
+            <hr>
+            @foreach ($picture as $urls)
+                <div>
+                    <hr>
+                    <img id = 'image' src = {{$urls}} width="20%" height="20%" >
 
-<div>
-    @foreach ($picture as $urls)
-<img id = 'image'src = {{$urls}} width="20%" height="20%" >
+                    <form action="haha" method="POST" style="display: inline;">
+                        {{ method_field('DELETE') }}
+                        {{ csrf_field() }}
+                        <button type="submit" class="btn btn-danger">删除</button>
+                    </form>
+                    <a href="https://google.com" class="btn btn-success">查看发表回复</a>
+                    <!--<button id = 'zoomin' class="btn" onclick = 'fun1()'>放大</button>-->
+                </div>
 
-        @endforeach
-</div>
+            @endforeach
+            <script>
+                $(function(){
+                    $('#image').click(function(){
+                        $(this).toggleClass('max');
+                        $(this).toggleClass('min');
+                    });
+                });
+            </script>
 
-    <script>
-        $(function(){
-            $('#image').click(function(){
-
-                $(this).toggleClass('min');
-                $(this).toggleClass('max');
-            });
-        });
-    </script>
 @endsection
