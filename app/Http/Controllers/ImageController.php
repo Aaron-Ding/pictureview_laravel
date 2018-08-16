@@ -12,21 +12,31 @@ class ImageController extends Controller
     public function store(Request $request)
     {
         if($request->hasFile('profile_image')) {
-            //$filesystem = new filesystems;
+            //upload into s3 folder
+            $filesystem = new filesystems;
             $filenamewithextension = $request->file('profile_image')->getClientOriginalName();
-
             $filename = pathinfo($filenamewithextension, PATHINFO_FILENAME);
-
             $extension = $request->file('profile_image')->getClientOriginalExtension();
             $filenametostore = '/s3_API_test/'. $filename.'_'.time().'.'.$extension;
-            var_dump($filenametostore.'ok');
+            var_dump($filenametostore);
             Storage::disk('s3')->put($filenametostore, fopen($request->file('profile_image'), 'r+'), 'public');
             //$filesystem-> url = $filenamewithextension;
-            //$filesystem-> url = $filenamewithextension;
-            //return view ('admin/image');
+            //update filesystem table
+            $links = 'https://xingzheng.s3.us-west-2.amazonaws.com'.$filenametostore;
+            $filesystem-> url = $filenametostore;
+            $filesystem->link = $links;
+            $filesystem->filename = $filename;
+            $filesystem->save();
+            return view ('admin/image')->with('picture',$links);
         }
     }
+
     public function showall(){
+        return view('admin/image')->with('picture', \App\Filesystems::all());
+    }
+    public function showallsss(){
+
+        //read file name dir from s3
         $nihao = Storage::disk('s3')->allFiles('/s3_API_test');
         $resultpath = array();
         $resultrul = array();
@@ -34,7 +44,6 @@ class ImageController extends Controller
             $singleurl = $nihao[$i];
             $url = Storage::disk('s3')->url(
                 $singleurl);
-
             array_push($resultrul,$url);
             array_push($resultpath,$singleurl);
             //var_dump($resultrul);

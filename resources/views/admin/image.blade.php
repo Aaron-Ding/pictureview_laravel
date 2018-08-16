@@ -17,10 +17,10 @@
         </form>
         <div class="row">
             <hr>
-            @foreach ($picture as $urls)
+            @foreach ($picture as $info)
                 <div>
                     <hr>
-                    <img id = 'image' src = {{$urls}} width="20%" height="20%" >
+                    <img id = 'image' src = {{$info->link}} width="20%" height="20%" >
 
                     <form action="haha" method="POST" style="display: inline;">
                         {{ method_field('DELETE') }}
