@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Image;
+
+use App\Filesystems;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Storage;
 class ImageController extends Controller
@@ -11,16 +12,17 @@ class ImageController extends Controller
     public function store(Request $request)
     {
         if($request->hasFile('profile_image')) {
-
+            //$filesystem = new filesystems;
             $filenamewithextension = $request->file('profile_image')->getClientOriginalName();
-            //var_dump($filenamewithextension);
+
             $filename = pathinfo($filenamewithextension, PATHINFO_FILENAME);
-            //var_dump($filename);
+
             $extension = $request->file('profile_image')->getClientOriginalExtension();
             $filenametostore = '/s3_API_test/'. $filename.'_'.time().'.'.$extension;
-            // var_dump($filenametostore);
+            var_dump($filenametostore.'ok');
             Storage::disk('s3')->put($filenametostore, fopen($request->file('profile_image'), 'r+'), 'public');
-            echo('1');
+            //$filesystem-> url = $filenamewithextension;
+            //$filesystem-> url = $filenamewithextension;
             //return view ('admin/image');
         }
     }
@@ -35,8 +37,9 @@ class ImageController extends Controller
 
             array_push($resultrul,$url);
             array_push($resultpath,$singleurl);
+            //var_dump($resultrul);
         }
-        //var_dump($resultrul);
+
         //["querystring"=>$request->session()->get('querystring'),"personcount"=>$personcount,"adultcount"=>$adultcount
         return view('/admin/image')->with(["picture" => $resultrul,"pathurl"=> $resultpath]);
     }
@@ -66,8 +69,8 @@ class ImageController extends Controller
         //$link = 'https://s3-us-west-2.amazonaws.com/xingzheng/s3_API_test/daisy%402x_1533073058.jpg';
         //$img = file_get_contents('https://s3-us-west-2.amazonaws.com/xingzheng/s3_API_test/daisy%402x_1533073058.jpg');
         // header('Content-type: image/jpg');
-        print_r($result);
-        //return view('/admin/image')->with('picture',$result['url']);
+        //print_r($result);
+        return view('/admin/image')->with('picture',$result['url']);
     }
 
     public function destroy(){

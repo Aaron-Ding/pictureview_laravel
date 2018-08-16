@@ -31,6 +31,6 @@ Route::group(['middleware' => 'auth', 'prefix' => 'manage'], function() {
     Route::get('/home', 'ManageController@indexx');
    Route::get('/managecomment','ManageController@index');
 });
-Route::any('/upload','ImageController@showall');
+//Route::any('/upload','ImageController@showall');
 Route::any('/storeinto','ImageController@store');
-Route::resource('/image','ImageController');
+//Route::resource('/image','ImageController');
