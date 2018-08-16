@@ -20,9 +20,9 @@
             @foreach ($picture as $info)
                 <div>
                     <hr>
-                    <img id = 'image' src = {{$info->link}} width="20%" height="20%" >
+                    <img id = '{{$info->filename}}' src = {{$info->link}} style = "CURSOR:hand; width:20%; height:20%" onclick = "fun1()" >
 
-                    <form action="haha" method="POST" style="display: inline;">
+                    <form action={{'image/'.$info->id}} method="POST" style="display: inline;">
                         {{ method_field('DELETE') }}
                         {{ csrf_field() }}
                         <button type="submit" class="btn btn-danger">删除</button>
@@ -33,12 +33,20 @@
 
             @endforeach
             <script>
-                $(function(){
-                    $('#image').click(function(){
-                        $(this).toggleClass('max');
-                        $(this).toggleClass('min');
-                    });
-                });
+               // $( document ).ready(function(){
+                   // $('#backgroudpic_1534175430.jpg').fun1(function(){
+                      //  console.log('haha');
+                      //  $(this).toggleClass('max');
+                      //  $(this).toggleClass('min');
+                  //  });
+               // });
+
+
+                function fun1(){
+                    console.log('{{$info->filename}}');
+                    var x =document.getElementById('{{$info->filename}}')
+                    x.classList.toggle('max');
+               }
             </script>
 
 @endsection

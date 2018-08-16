@@ -21,7 +21,8 @@ route::get('/logout','\App\Http\Controllers\Auth\LoginController@logout');
 Route::get('/home', 'HomeController@index')->name('home');
 Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function() {
     Route::get('/', 'HomeController@index');
-    Route::get('/image','ImageController@showall');
+    //Route::get('/image','ImageController@showall');
+    Route::resource('/image','ImageController');
     Route::resource('/picture','PictureController');
 });
 Route::get('/showpicture/{id}','CommentController@show');
@@ -33,4 +34,5 @@ Route::group(['middleware' => 'auth', 'prefix' => 'manage'], function() {
 });
 //Route::any('/upload','ImageController@showall');
 Route::any('/storeinto','ImageController@store');
+//Route::get('image/{id}','ImageController@destroy');
 //Route::resource('/image','ImageController');

@@ -31,7 +31,7 @@ class ImageController extends Controller
         }
     }
 
-    public function showall(){
+    public function index(){
         return view('admin/image')->with('picture', \App\Filesystems::all());
     }
     public function showallsss(){
@@ -82,9 +82,11 @@ class ImageController extends Controller
         return view('/admin/image')->with('picture',$result['url']);
     }
 
-    public function destroy(){
-        var_dump('111');
-        //Storage::disk('s3')->delete('/s3_API_test/file_name.jpg');
+    public function destroy($id){
+
+        \App\Filesystems::find($id)->delete();
+         echo($id);
+        return redirect()->back()->withInput()->withError('successful');
     }
 
 
